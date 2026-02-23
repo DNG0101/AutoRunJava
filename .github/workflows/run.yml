@@ -1,0 +1,36 @@
+name: Run Java Program
+
+on:
+  workflow_dispatch:
+  push:
+
+jobs:
+  run-java:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Compile and Run
+        run: |
+          javac Main.java
+          java Main > output.txt
+
+      - name: Create webpage
+        run: |
+          echo "<html><body><pre>" > index.html
+          cat output.txt >> index.html
+          echo "</pre></body></html>" >> index.html
+
+      - name: Deploy page
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: .
