@@ -1,0 +1,6 @@
+{
+  "name": "Auto Java Runner",
+  "image": "mcr.microsoft.com/devcontainers/java:1-17-bullseye",
+  "postCreateCommand": "chmod +x run.sh",
+  "postStartCommand": "./run.sh"
+}
